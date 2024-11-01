@@ -14,11 +14,12 @@
         <vm:LoginViewModel />
     </Page.DataContext>
 
-    <Grid ShowGridLines="True">
+    <Grid ShowGridLines="False">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0">
@@ -31,11 +32,14 @@
 
         <StackPanel Grid.Row="1" MinWidth="400" Height="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Style="{StaticResource LoginPageTextBlock}" Text="Логин"/>
-            <TextBox Style="{StaticResource LoginPageInputTextBox}" Text="{Binding Login}"/>
+            <TextBox Style="{StaticResource LoginPageInputTextBox}" Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Style="{StaticResource LoginPageTextBlock}" Text="Пароль"/>
-            <PasswordBox Style="{StaticResource LoginPageInputPasswordBox}"/>
-            <Button Style="{StaticResource BaseButton}" Padding="5" Margin="5,25,5,0" Content="Войти"/>
+            <PasswordBox x:Name="Password" Style="{StaticResource LoginPageInputPasswordBox}"/>
+            <Button Style="{StaticResource BaseButton}" Command="{Binding LogInCommand}" CommandParameter="{Binding ElementName=Password}" Padding="5" Margin="5,25,5,0" Content="Войти"/>
         </StackPanel>
 
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Background="">
+            <StatusBar Height="25"/>
+        </StackPanel>
     </Grid>
 </Page>
