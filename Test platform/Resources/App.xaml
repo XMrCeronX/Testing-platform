@@ -6,7 +6,8 @@
     <Application.Resources>
 
         <Style x:Key="BaseButton" TargetType="Button">
-            <Setter Property="Background" Value="#FFBF00"/>
+            <Setter Property="Background" Value="#7e4953"/>
+            <Setter Property="Foreground" Value="#f5f5f5"/>
         </Style>
 
         <Style x:Key="LoginPageTextBlock" TargetType="TextBlock">
@@ -29,6 +30,19 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
+ 
+        <!-- Для нижней строки состояния -->
+        <Style x:Key="BottomStackPanel" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Background" Value="#f5f5f5"/>
+        </Style>
+
+        <Style x:Key="StyleProgressBar" TargetType="ProgressBar">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="MinHeight" Value="20"/>
+            <Setter Property="MinWidth" Value="150"/>
+        </Style>
+
 
         <!--A Style that extends the previous TextBlock Style with an x:Key of TitleText-->
         <!--<Style BasedOn="{StaticResource {x:Type TextBlock}}"

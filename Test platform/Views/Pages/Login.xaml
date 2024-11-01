@@ -38,8 +38,8 @@
             <Button Style="{StaticResource BaseButton}" Command="{Binding LogInCommand}" CommandParameter="{Binding ElementName=Password}" Padding="5" Margin="5,25,5,0" Content="Войти"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Background="">
-            <StatusBar Height="25"/>
+        <StackPanel Grid.Row="2" Style="{StaticResource BottomStackPanel}">
+            <ProgressBar Style="{StaticResource StyleProgressBar}" Value="{Binding ProgressBarValue}" Visibility="{Binding ProgressBarVisibility}"/>
         </StackPanel>
     </Grid>
 </Page>
