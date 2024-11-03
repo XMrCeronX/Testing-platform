@@ -11,7 +11,7 @@ namespace Test_platform.ViewModels
     internal class LoginViewModel : ViewModel
     {
         #region Login
-        private string _login = "John";
+        private string _login = "";
         public string Login
         {
             get => _login;
@@ -33,12 +33,13 @@ namespace Test_platform.ViewModels
         private bool CanLogInCommand(object parameters) => true;
         private void OnLogInCommand(object parameters)
         {
-            ChangeProgressBarVisibility();
+            //ChangeProgressBarVisibility();
             string password = (parameters as PasswordBox).Password; // немного нарушил MVVM (LoginViewModel знает о PasswordBox т.е. знает о View)
-            //MessageBox.Show($"{Login}\n{password}");
+            Console.WriteLine(Login);
+            Console.WriteLine(password);
         }
         #endregion
-
+         
         #region ProgressBarValue
         private int _progressBarValue = 0;
         public int ProgressBarValue
@@ -49,7 +50,7 @@ namespace Test_platform.ViewModels
         #endregion
 
         #region ProgressBarVisibility
-        private Visibility _progressBarVisibility = Visibility.Visible; // Visibility.Collapsed
+        private Visibility _progressBarVisibility = Visibility.Collapsed; // Visibility.Collapsed
         public Visibility ProgressBarVisibility
         {
             get => _progressBarVisibility;
@@ -93,7 +94,7 @@ namespace Test_platform.ViewModels
         {
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommand, CanCloseApplicationCommand);
             LogInCommand = new LambdaCommand(OnLogInCommand, CanLogInCommand);
-            CreateTaskProgressBarValueUpdate();
+            //CreateTaskProgressBarValueUpdate(); // обновление значения ProgressBar
         }
 
         ~LoginViewModel()
