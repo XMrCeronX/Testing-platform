@@ -1,23 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Documents;
 using TestingPlatform.Infrastructure.Logging.Base;
 using TestingPlatform.Infrastructure.Logging.Handlers;
-using TestingPlatform.ViewModels.Base;
 
 namespace TestingPlatform.Infrastructure.Logging
 {
-    internal class Logger : ILogger
+    public class Logger : ILogger
     {
-        private HandlerManager handlerManager { get; set; }
-        public LogLevel Level { get; set; }
+        private static HandlerManager handlerManager { get; set; }
+        private static Logger _instance = null;
+        private static readonly object padlock = new(); // thread-safety
 
-        public Logger()
+        private Logger()
         {
-            handlerManager = new HandlerManager();
-            handlerManager.AddHandler(new ConsoleHandler());
-            handlerManager.AddHandler(new FileHandler(AppDomain.CurrentDomain.BaseDirectory));
+        }
+
+        public static Logger Instance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new Logger();
+                        handlerManager = new HandlerManager();
+                        handlerManager.AddHandler(new ConsoleHandler());
+                        handlerManager.AddHandler(new FileHandler(AppDomain.CurrentDomain.BaseDirectory));
+                    }
+                    return _instance;
+                }
+            }
         }
 
         public void Debug(string message)

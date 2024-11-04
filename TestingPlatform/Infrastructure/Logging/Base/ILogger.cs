@@ -2,12 +2,11 @@
 {
     internal interface ILogger
     {
-        public LogLevel Level { get; set; }
-        public void Debug(string message);
-        public void Info(string message);
-        public void Warning(string message);
-        public void Error(string message);
-        public void Critical(string message);
+        public static void Debug(string message) { }
+        public static void Info(string message) { }
+        public static void Warning(string message) { }
+        public static void Error(string message) { }
+        public static void Critical(string message) { }
     }
     enum LogLevel
     {
