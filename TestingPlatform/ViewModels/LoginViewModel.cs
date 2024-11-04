@@ -5,6 +5,7 @@ using System.Windows.Threading;
 using System.Windows;
 using TestingPlatform.Infrastructure.Commands;
 using TestingPlatform.ViewModels.Base;
+using TestingPlatform.Infrastructure.Logging;
 
 namespace TestingPlatform.ViewModels
 {
@@ -37,6 +38,8 @@ namespace TestingPlatform.ViewModels
             string password = (parameters as PasswordBox).Password; // немного нарушил MVVM (LoginViewModel знает о PasswordBox т.е. знает о View)
             Console.WriteLine(Login);
             Console.WriteLine(password);
+            Logger.Instance.Debug(Login);
+            Logger.Instance.Debug(password);
         }
         #endregion
 
