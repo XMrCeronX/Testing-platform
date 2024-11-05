@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using TestingPlatform.Infrastructure.Logging;
 
 namespace TestingPlatform
 {
@@ -16,6 +12,7 @@ namespace TestingPlatform
         [STAThread] // Обязательно для WPF приложений
         public static void Main()
         {
+            Logger.Debug("Запуск приложения.");
             App app = new App();
             app.InitializeComponent(); // Загружает ресурсы из App.xaml
             app.Run(new MainWindow()); // Запускает указанное окно
