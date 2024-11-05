@@ -7,13 +7,22 @@ using static TestingPlatform.Infrastructure.Logging.Handlers.Base.Handler;
 
 namespace TestingPlatform.Infrastructure.Logging.Handlers
 {
-    internal class HandlerManager
+    internal class HandlersManager
     {
-        public List<Handler> Handlers { get; set; } = new List<Handler>();
+        private List<Handler> Handlers { get; set; } = new List<Handler>();
 
         public void AddHandler(Handler handler)
         {
             Handlers.Add(handler);
+        }
+
+        public HandlersManager AddHandlers(params Handler[] handlers)
+        {
+            foreach (Handler handler in handlers)
+            {
+                Handlers.Add(handler);
+            }
+            return this;
         }
 
         public void ClearHandlers()
@@ -37,7 +46,7 @@ namespace TestingPlatform.Infrastructure.Logging.Handlers
             };
             foreach (Handler handler in Handlers)
             {
-                handler.Write(Formatter.Formatter.FormatString(dict, "dateTime [ThreadId=threadId] [levelName]: message."));
+                handler.Write(Formatter.Formatter.FormatString(dict, "dateTime [ThreadId=threadId] [levelName]: message"));
             }
         }
     }

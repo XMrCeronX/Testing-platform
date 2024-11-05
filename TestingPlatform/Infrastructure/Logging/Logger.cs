@@ -1,58 +1,39 @@
 ﻿using System;
+using System.Windows;
 using TestingPlatform.Infrastructure.Logging.Base;
 using TestingPlatform.Infrastructure.Logging.Handlers;
 
 namespace TestingPlatform.Infrastructure.Logging
 {
-    public class Logger : ILogger
+    public class Logger
     {
-        private static HandlerManager handlerManager { get; set; }
-        private static Logger _instance = null;
-        private static readonly object padlock = new(); // thread-safety
+        private static HandlersManager handlerManager = new HandlersManager().AddHandlers(
+                new ConsoleHandler(),
+                new FileHandler(AppDomain.CurrentDomain.BaseDirectory)
+        );
 
-        private Logger()
-        {
-        }
-
-        public static Logger Instance
-        {
-            get
-            {
-                lock (padlock)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new Logger();
-                        handlerManager = new HandlerManager();
-                        handlerManager.AddHandler(new ConsoleHandler());
-                        handlerManager.AddHandler(new FileHandler(AppDomain.CurrentDomain.BaseDirectory));
-                    }
-                    return _instance;
-                }
-            }
-        }
-
-        public void Debug(string message)
+        public static void Debug(string message, bool usingMessageBox = false)
         {
             handlerManager.Write(message, LogLevel.Debug);
+            if (usingMessageBox) MessageBox.Show(message);
         }
 
-        public void Info(string message)
+        public static void Info(string message)
         {
             handlerManager.Write(message, LogLevel.Info);
         }
 
-        public void Warning(string message)
+        public static void Warning(string message)
         {
             handlerManager.Write(message, LogLevel.Warning);
         }
 
-        public void Error(string message)
+        public static void Error(string message)
         {
             handlerManager.Write(message, LogLevel.Error);
         }
 
-        public void Critical(string message)
+        public static void Critical(string message)
         {
             handlerManager.Write(message, LogLevel.Critical);
         }
