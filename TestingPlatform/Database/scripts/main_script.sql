@@ -19,6 +19,7 @@ CREATE TABLE `users` (
 	`name` VARCHAR(255) NOT NULL, -- имя
 	`surname` VARCHAR(255) NOT NULL, -- фамилия
 	`patronymic` VARCHAR(255) NOT NULL, -- отчество
+	`login` VARCHAR(255) NOT NULL UNIQUE, -- логин
 	`password` VARCHAR(255) NOT NULL, -- пароль
 	`role_id` BIGINT NOT NULL, -- роль
 	`time_created` TIMESTAMP NOT NULL DEFAULT NOW(), -- дата создания пользователя
@@ -32,19 +33,19 @@ VALUES
 ('Учитель'),
 ('Студент');
 
-INSERT INTO `users` (patronymic, name, surname, role_id, `password`)
+INSERT INTO `users` (patronymic, name, surname, role_id, `login`, `password`)
 VALUES
-('гуляй вася', 'root', 'Не твоего ума дело',1, MD5('куку_мой_сладкий')),
-('Симонова', 'Ксения', 'Ивановна',2,MD5('OWJ895OVXV')),
-('Старостина', 'Елизавета', 'Фёдоровна',2,MD5('I9F3DNHPWL')),
-('Васильев', 'Святослав', 'Михайлович',2,MD5('ISUWSC7KI3')),
-('Лазарева', 'Варвара', 'Кирилловна',2,MD5('GAMZCLFZGX')),
-('Тарасов', 'Даниил', 'Никитич',2,MD5('MBUJ90D2TE')),
-('Сафонов', 'Алексей', 'Никитич',3,MD5('0772AYSGLV')),
-('Филимонов', 'Данила', 'Даниилович',3,MD5('C0S3OV69BW')),
-('Фомичева', 'Айлин', 'Александровна',3,MD5('U8GIOPNR42')),
-('Николаева', 'Виктория', 'Дмитриевна',3,MD5('DUCSJJU2V5')),
-('Еремина', 'Олеся', 'Сергеевна',3,MD5('E89L7XQ9XO'));
+('гуляй вася', 'root', 'Не твоего ума дело',1,'root', MD5('password')),
+('Симонова', 'Ксения', 'Ивановна',2,'catixa-xuta98@bk.ru', MD5('OWJ895OVXV')),
+('Старостина', 'Елизавета', 'Фёдоровна',2, 'kuyano-wimi6@yandex.ru', MD5('I9F3DNHPWL')),
+('Васильев', 'Святослав', 'Михайлович',2, 'pujef_ikene11@hotmail.com', MD5('ISUWSC7KI3')),
+('Лазарева', 'Варвара', 'Кирилловна',2, 'bunane-siwe91@hotmail.com', MD5('GAMZCLFZGX')),
+('Тарасов', 'Даниил', 'Никитич',2, 'zebuj-anoje53@list.ru', MD5('MBUJ90D2TE')),
+('Сафонов', 'Алексей', 'Никитич',3, 'poved_uroge90@internet.ru', MD5('0772AYSGLV')),
+('Филимонов', 'Данила', 'Даниилович',3, 'var-ixafata88@internet.ru', MD5('C0S3OV69BW')),
+('Фомичева', 'Айлин', 'Александровна',3, 'yik-alepuso51@inbox.ru', MD5('U8GIOPNR42')),
+('Николаева', 'Виктория', 'Дмитриевна',3, 'gijudol-ora21@yahoo.com', MD5('DUCSJJU2V5')),
+('Еремина', 'Олеся', 'Сергеевна',3, 'fopata_vere35@list.ru', MD5('E89L7XQ9XO'));
 
 -- SELECT u.name 'Имя', u.surname 'Фамилия', u.`password` 'Пароль', r.name 'Вид пользователя'
 -- FROM `users` u
