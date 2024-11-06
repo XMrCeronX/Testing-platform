@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Windows;
 using TestingPlatform.Infrastructure.Logging.Handlers.Base;
 
 namespace TestingPlatform.Infrastructure.Logging.Handlers
@@ -26,11 +24,11 @@ namespace TestingPlatform.Infrastructure.Logging.Handlers
             {
                 try
                 {
-                    using (StreamWriter w = File.AppendText(FullPath)) { }; // создание поустого файла
+                    using (StreamWriter w = File.AppendText(FullPath)) { }; // создание пустого файла
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show($"Ошибка создания файла \'{FullPath}\'.");   
+                    Logger.Error($"Ошибка создания файла для логов: {FullPath}.", true);   
                 }
             }
         }
