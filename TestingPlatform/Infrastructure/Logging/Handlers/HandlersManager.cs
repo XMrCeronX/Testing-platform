@@ -37,7 +37,7 @@ namespace TestingPlatform.Infrastructure.Logging.Handlers
         /// <param name="level">Уровень лога</param>
         public void Write(string message, LogLevel level)
         {
-            Dictionary<string, StringDelegate> dict = new Dictionary<string, StringDelegate>()
+            Dictionary<string, Func<string>> dict = new Dictionary<string, Func<string>>()
             {
                 { "dateTime", () => DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss.fff") },
                 { "threadId", () => Thread.CurrentThread?.ManagedThreadId.ToString() },
