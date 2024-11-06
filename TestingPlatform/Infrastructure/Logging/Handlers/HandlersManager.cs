@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using TestingPlatform.Infrastructure.Logging.Base;
 using TestingPlatform.Infrastructure.Logging.Handlers.Base;
-using static TestingPlatform.Infrastructure.Logging.Handlers.Base.Handler;
+using static TestingPlatform.Infrastructure.Logging.Formatter.Formatter;
 
 namespace TestingPlatform.Infrastructure.Logging.Handlers
 {
@@ -37,7 +37,7 @@ namespace TestingPlatform.Infrastructure.Logging.Handlers
         /// <param name="level">Уровень лога</param>
         public void Write(string message, LogLevel level)
         {
-            var dict = new Dictionary<string, StringDelegate>()
+            Dictionary<string, StringDelegate> dict = new Dictionary<string, StringDelegate>()
             {
                 { "dateTime", () => DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss.fff") },
                 { "threadId", () => Thread.CurrentThread?.ManagedThreadId.ToString() },
@@ -46,7 +46,7 @@ namespace TestingPlatform.Infrastructure.Logging.Handlers
             };
             foreach (Handler handler in Handlers)
             {
-                handler.Write(Formatter.Formatter.FormatString(dict, "dateTime [ThreadId=threadId] [levelName]: message"));
+                handler.Write(ReplaceStringsToValues(dict, "dateTime [ThreadId=threadId] [levelName]: message"));
             }
         }
     }

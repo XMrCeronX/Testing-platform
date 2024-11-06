@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
-using static TestingPlatform.Infrastructure.Logging.Handlers.Base.Handler;
 
 namespace TestingPlatform.Infrastructure.Logging.Formatter
 {
     internal static class Formatter
     {
+        public delegate string StringDelegate();
 
-        public static string FormatString(Dictionary<string, StringDelegate> dictPairs, string stringFormat)
+        public static string ReplaceStringsToValues(Dictionary<string, StringDelegate> replaceableDict, string stringFormat)
         {
             string resultString = stringFormat;
-            foreach (KeyValuePair<string, StringDelegate> pair in dictPairs) {
+            foreach (KeyValuePair<string, StringDelegate> pair in replaceableDict) {
                 resultString = resultString.Replace(pair.Key, pair.Value());
             }
             return resultString;
         }
-
     }
 }
