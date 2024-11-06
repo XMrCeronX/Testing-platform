@@ -1,5 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
 using TestingPlatform.Infrastructure.Context;
+using TestingPlatform.Infrastructure.Logging;
 using TestingPlatform.ViewModels.Base;
 using TestingPlatform.Views.Pages;
 
@@ -25,8 +28,14 @@ namespace TestingPlatform.ViewModels.Navigation
         }
         #endregion
 
+        private void MainWindowClosingEvent(object sender, CancelEventArgs e)
+        {
+            Logger.Debug($"Закрытие приложения.");
+        }
+
         public MainWindowNavigationViewModel()
         {
+            Application.Current.MainWindow.Closing += new CancelEventHandler(MainWindowClosingEvent);
             Login currentPage = new Login();
             ViewModel currentViewModel = new LoginViewModel();
             Context = new ApplicationContext(currentPage, currentViewModel);
