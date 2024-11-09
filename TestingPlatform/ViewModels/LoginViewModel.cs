@@ -1,11 +1,13 @@
-﻿using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Threading;
 using System.Windows;
 using TestingPlatform.Infrastructure.Commands;
 using TestingPlatform.ViewModels.Base;
 using TestingPlatform.Infrastructure.Logging;
+using TestingPlatform.Infrastructure.Cryptography;
+using TestingPlatform.Models;
+using System.Linq;
+using System.Data;
 
 namespace TestingPlatform.ViewModels
 {
@@ -34,12 +36,35 @@ namespace TestingPlatform.ViewModels
         private bool CanLogInCommand(object parameters) => true;
         private void OnLogInCommand(object parameters)
         {
-            //ChangeProgressBarVisibility();
             string password = (parameters as PasswordBox).Password; // немного нарушил MVVM (LoginViewModel знает о PasswordBox т.е. знает о View)
-            Console.WriteLine(Login);
-            Console.WriteLine(password);
-            Logger.Instance.Debug(Login);
-            Logger.Instance.Debug(password);
+            if (Login == string.Empty)
+            {
+                Logger.Info($"Логин не должен быть пустым!", true);
+                return;
+            }
+            if (password == string.Empty)
+            {
+                Logger.Info($"Пароль не должен быть пустым!", true);
+                return;
+            }
+            Logger.Debug($"Попытка входа пользователя {Login}.");
+            Logger.Debug(Login);
+            Logger.Debug(password);
+            string passwordHash = Cryptography.CreateMD5(password);
+            Logger.Debug(passwordHash);
+            using (test_platformContext context = new())
+            {
+                User? findedUser = context.Users.Where(u => u.Login == Login && u.Password == passwordHash).FirstOrDefault();
+                if (findedUser != null)
+                {
+                    Logger.Debug($"{Login} вошел в систему.");
+                    // GO TO USER ROLE PAGE
+                }
+                else
+                {
+                    Logger.Info($"Пользователь {Login} не найден.", true);
+                }
+            }
         }
         #endregion
 
@@ -77,32 +102,10 @@ namespace TestingPlatform.ViewModels
             }
         }
 
-        Random rand = new Random();
-        DispatcherTimer dispatcherTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromSeconds(5) // Интервал срабатывания таймера
-        };
-
-        private void CreateTaskProgressBarValueUpdate()
-        {
-            dispatcherTimer.Tick += (object sender, EventArgs e) =>
-            {
-                int newMumber = rand.Next(1, 100);
-                ProgressBarValue = newMumber;
-            };
-            dispatcherTimer.Start();
-        }
-
         public LoginViewModel()
         {
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommand, CanCloseApplicationCommand);
             LogInCommand = new LambdaCommand(OnLogInCommand, CanLogInCommand);
-            //CreateTaskProgressBarValueUpdate(); // обновление значения ProgressBar
-        }
-
-        ~LoginViewModel()
-        {
-            dispatcherTimer.Stop();
         }
     }
 }

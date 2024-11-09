@@ -1,4 +1,4 @@
-﻿ <Page x:Class="TestingPlatform.Views.Pages.Login"
+﻿   <Page x:Class="TestingPlatform.Views.Pages.Login"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -33,14 +33,14 @@
 
         <StackPanel Grid.Row="1" MinWidth="400" Height="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Style="{StaticResource LoginPageTextBlock}" Text="Логин"/>
-            <TextBox Style="{StaticResource LoginPageInputTextBox}" Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Style="{StaticResource LoginPageTextBlock}" Text="Пароль"/>
-            <PasswordBox x:Name="Password" Style="{StaticResource LoginPageInputPasswordBox}"/>
-            <Button Style="{StaticResource BaseButton}" Command="{Binding LogInCommand}" CommandParameter="{Binding ElementName=Password}" Padding="5" Margin="5,25,5,0" Content="Войти"/>
+            <TextBox Style="{DynamicResource LoginPageInputTextBox}" Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Style="{DynamicResource LoginPageTextBlock}" Text="Пароль"/>
+            <PasswordBox x:Name="Password" Style="{DynamicResource LoginPageInputPasswordBox}"/>
+            <Button Style="{DynamicResource BaseButton}" Command="{Binding LogInCommand}" CommandParameter="{Binding ElementName=Password}" Padding="5" Margin="5,25,5,0" Content="Войти"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Style="{StaticResource BottomStackPanel}">
-            <ProgressBar Style="{StaticResource StyleProgressBar}" Value="{Binding ProgressBarValue}" Visibility="{Binding ProgressBarVisibility}"/>
+        <StackPanel Grid.Row="2" Style="{DynamicResource BottomStackPanel}">
+            <ProgressBar Style="{DynamicResource StyleProgressBar}" Value="{Binding ProgressBarValue}" Visibility="{Binding ProgressBarVisibility}"/>
         </StackPanel>
     </Grid>
     
