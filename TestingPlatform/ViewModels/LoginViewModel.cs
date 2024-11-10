@@ -8,10 +8,11 @@ using TestingPlatform.Infrastructure.Cryptography;
 using TestingPlatform.Models;
 using System.Linq;
 using System.Data;
+using System.Diagnostics;
 
 namespace TestingPlatform.ViewModels
 {
-    internal class LoginViewModel : ViewModel
+    internal class LoginViewModel : ProgressBarViewModel
     {
         #region Login
         private string _login = "";
@@ -28,6 +29,23 @@ namespace TestingPlatform.ViewModels
         private void OnCloseApplicationCommand(object parameters)
         {
             Application.Current.Shutdown();
+        }
+        #endregion
+
+        #region OpenLogFileCommand
+        public ICommand OpenLogFileCommand { get; }
+        private bool CanOpenLogFileCommand(object parameters) => true;
+        private void OnOpenLogFileCommand(object parameters)
+        {
+            string? pathToLogFile = Logger.GetPathToLogFile();
+            if (pathToLogFile == null)
+            {
+                Logger.Error("Не получается открыть файл логов", true);
+            }
+            else
+            {
+                new Process { StartInfo = new ProcessStartInfo(pathToLogFile) { UseShellExecute = true } }.Start();
+            }
         }
         #endregion
 
@@ -48,10 +66,8 @@ namespace TestingPlatform.ViewModels
                 return;
             }
             Logger.Debug($"Попытка входа пользователя {Login}.");
-            Logger.Debug(Login);
-            Logger.Debug(password);
             string passwordHash = Cryptography.CreateMD5(password);
-            Logger.Debug(passwordHash);
+            Logger.Debug($"{Login} (hash={passwordHash})");
             using (test_platformContext context = new())
             {
                 User? findedUser = context.Users.Where(u => u.Login == Login && u.Password == passwordHash).FirstOrDefault();
@@ -68,44 +84,11 @@ namespace TestingPlatform.ViewModels
         }
         #endregion
 
-        #region ProgressBarValue
-        private int _progressBarValue = 0;
-        public int ProgressBarValue
-        {
-            get => _progressBarValue;
-            set => Set(ref _progressBarValue, value);
-        }
-        #endregion
-
-        #region ProgressBarVisibility
-        private Visibility _progressBarVisibility = Visibility.Collapsed; // Visibility.Collapsed
-        public Visibility ProgressBarVisibility
-        {
-            get => _progressBarVisibility;
-            set => Set(ref _progressBarVisibility, value);
-        }
-        #endregion
-
-        private void ChangeProgressBarVisibility()
-        {
-            switch (ProgressBarVisibility)
-            {
-                case Visibility.Visible:
-                    ProgressBarVisibility = Visibility.Collapsed; // Не отображайте элемент и не резервируйте для него место в макете.
-                    break;
-                case Visibility.Collapsed:
-                    ProgressBarVisibility = Visibility.Visible; // Отображай элемент.
-                    break;
-                default:
-                    ProgressBarVisibility = Visibility.Collapsed;
-                    break;
-            }
-        }
-
         public LoginViewModel()
         {
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommand, CanCloseApplicationCommand);
             LogInCommand = new LambdaCommand(OnLogInCommand, CanLogInCommand);
+            OpenLogFileCommand = new LambdaCommand(OnOpenLogFileCommand, CanOpenLogFileCommand);
         }
     }
 }

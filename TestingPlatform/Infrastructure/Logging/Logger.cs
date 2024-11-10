@@ -12,6 +12,12 @@ namespace TestingPlatform.Infrastructure.Logging
                 new FileHandler(AppDomain.CurrentDomain.BaseDirectory)
         );
 
+        public static string? GetPathToLogFile()
+        {
+            FileHandler? findedHandler = handlerManager.FindHandlerByType<FileHandler>();
+            return findedHandler?.FullPath;
+        }
+
         public static void Debug(string message, bool usingMessageBox = false, string caption = "Сообщение отладки")
         {
             handlerManager.Write(message, LogLevel.Debug);

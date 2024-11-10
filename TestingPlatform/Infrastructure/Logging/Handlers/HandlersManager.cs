@@ -30,6 +30,16 @@ namespace TestingPlatform.Infrastructure.Logging.Handlers
             Handlers.Clear();
         }
 
+        public R? FindHandlerByType<R>() 
+            where R : Handler
+        {
+            foreach (Handler handler in Handlers)
+            {
+                if (handler.GetType() == typeof(R)) return (R)handler;
+            }
+            return null;
+        }
+
         /// <summary>
         /// Пишет message во все Handlers.
         /// </summary>
