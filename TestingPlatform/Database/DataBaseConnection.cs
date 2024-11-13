@@ -1,25 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System.IO;
 using System;
-using System.Windows.Controls;
-using TestingPlatform.ViewModels.Base;
+using System.IO;
 using System.Linq;
 
-namespace TestingPlatform.Infrastructure.Context
+namespace TestingPlatform.Database
 {
-    internal class ApplicationContext
+    internal class DataBaseConnection
     {
-
-        public Page CurrentPage { get; set; }
-        public ViewModel CurrentViewModel { get; set; }
-
-
-        public ApplicationContext(Page currentPage, ViewModel currentViewModel)
-        {
-            CurrentPage = currentPage;
-            CurrentViewModel = currentViewModel;
-        }
-
         public static string GetConnectionString()
         {
             string[] paths = AppDomain.CurrentDomain.BaseDirectory.Split("\\").SkipLast(4).ToArray();
