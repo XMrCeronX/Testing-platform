@@ -16,6 +16,6 @@
         <vm:MainWindowNavigationViewModel/>
     </Window.DataContext>
 
-    <Frame Content="{Binding CurrentPage}"/>
+    <Frame NavigationUIVisibility="Hidden" Content="{Binding ContentFrame}"/>
 
 </Window>
