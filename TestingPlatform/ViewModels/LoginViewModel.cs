@@ -9,13 +9,15 @@ using TestingPlatform.Models;
 using System.Linq;
 using System.Data;
 using System.Diagnostics;
+using TestingPlatform.Infrastructure.Navigation;
+using TestingPlatform.Views.Pages;
 
 namespace TestingPlatform.ViewModels
 {
     internal class LoginViewModel : ProgressBarViewModel
     {
         #region Login
-        private string _login = "";
+        private string _login = "root";
         public string Login
         {
             get => _login;
@@ -55,6 +57,8 @@ namespace TestingPlatform.ViewModels
         private void OnLogInCommand(object parameters)
         {
             string password = (parameters as PasswordBox).Password; // немного нарушил MVVM (LoginViewModel знает о PasswordBox т.е. знает о View)
+            Login = Login.Trim();
+            password = password.Trim();
             if (Login == string.Empty)
             {
                 Logger.Info($"Логин не должен быть пустым!", true);
@@ -65,16 +69,14 @@ namespace TestingPlatform.ViewModels
                 Logger.Info($"Пароль не должен быть пустым!", true);
                 return;
             }
-            Logger.Debug($"Попытка входа пользователя {Login}.");
             string passwordHash = Cryptography.CreateMD5(password);
-            Logger.Debug($"{Login} (hash={passwordHash})");
+            Logger.Debug($"login={Login} pass={password} hash={passwordHash}");
             using (test_platformContext context = new())
             {
                 User? findedUser = context.Users.Where(u => u.Login == Login && u.Password == passwordHash).FirstOrDefault();
                 if (findedUser != null)
                 {
-                    Logger.Debug($"{Login} вошел в систему.");
-                    // GO TO USER ROLE PAGE
+                    NavigationService.Instance.NavigateToUserPage(findedUser);
                 }
                 else
                 {
